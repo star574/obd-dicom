@@ -3,9 +3,9 @@ package utils
 import (
 	"time"
 
-	"github.com/t2care/obd-dicom/dictionary/tags"
-	"github.com/t2care/obd-dicom/media"
-	"github.com/t2care/obd-dicom/uuids"
+	"github.com/star574/obd-dicom/dictionary/tags"
+	"github.com/star574/obd-dicom/media"
+	"github.com/star574/obd-dicom/uuids"
 )
 
 // DefaultCFindRequest - Creates a default C-Find request

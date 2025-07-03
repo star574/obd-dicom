@@ -6,7 +6,7 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/t2care/obd-dicom/media"
+	"github.com/star574/obd-dicom/media"
 )
 
 var version string

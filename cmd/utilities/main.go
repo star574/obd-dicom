@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/t2care/obd-dicom/clients/httpclient"
+	"github.com/star574/obd-dicom/clients/httpclient"
 )
 
 const dictionaryURL string = "https://raw.githubusercontent.com/fo-dicom/fo-dicom/development/FO-DICOM.Core/Dictionaries/DICOM%20Dictionary.xml"

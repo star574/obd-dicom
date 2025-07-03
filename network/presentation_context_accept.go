@@ -3,9 +3,9 @@ package network
 import (
 	"bufio"
 	"github.com/sirupsen/logrus"
-	"github.com/t2care/obd-dicom/dictionary/sopclass"
-	"github.com/t2care/obd-dicom/dictionary/transfersyntax"
-	"github.com/t2care/obd-dicom/media"
+	"github.com/star574/obd-dicom/dictionary/sopclass"
+	"github.com/star574/obd-dicom/dictionary/transfersyntax"
+	"github.com/star574/obd-dicom/media"
 )
 
 type presentationContextAccept struct {

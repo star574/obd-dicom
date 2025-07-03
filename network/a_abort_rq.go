@@ -3,7 +3,7 @@ package network
 import (
 	"bufio"
 
-	"github.com/t2care/obd-dicom/media"
+	"github.com/star574/obd-dicom/media"
 )
 
 type aabortRQ struct {

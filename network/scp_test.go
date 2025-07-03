@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/star574/obd-dicom/dictionary/tags"
+	"github.com/star574/obd-dicom/media"
+	"github.com/star574/obd-dicom/network/dicomstatus"
 	"github.com/stretchr/testify/assert"
-	"github.com/t2care/obd-dicom/dictionary/tags"
-	"github.com/t2care/obd-dicom/media"
-	"github.com/t2care/obd-dicom/network/dicomstatus"
 )
 
 func Test_Association_ID(t *testing.T) {

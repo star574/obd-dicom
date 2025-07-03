@@ -3,7 +3,7 @@ package network
 import (
 	"bufio"
 	"github.com/sirupsen/logrus"
-	"github.com/t2care/obd-dicom/media"
+	"github.com/star574/obd-dicom/media"
 )
 
 // PermanentRejectReasons - Permanent association reject reasons

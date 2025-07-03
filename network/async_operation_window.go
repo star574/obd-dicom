@@ -1,6 +1,6 @@
 package network
 
-import "github.com/t2care/obd-dicom/media"
+import "github.com/star574/obd-dicom/media"
 
 type asyncOperationWindow struct {
 	ItemType                     byte //0x53

@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/t2care/obd-dicom/dictionary/tags"
-	"github.com/t2care/obd-dicom/media"
+	"github.com/star574/obd-dicom/dictionary/tags"
+	"github.com/star574/obd-dicom/media"
 )
 
 var key string

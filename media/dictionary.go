@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/t2care/obd-dicom/dictionary/tags"
+	"github.com/star574/obd-dicom/dictionary/tags"
 )
 
 type dictionary struct {

@@ -1,9 +1,29 @@
+
+
 [![test](https://github.com/t2care/obd-dicom/actions/workflows/pr.yml/badge.svg)](https://github.com/t2care/obd-dicom/actions/workflows/pr.yml)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=t2care_obd-dicom&metric=bugs)](https://sonarcloud.io/summary/new_code?id=t2care_obd-dicom)
 
 # obd-dicom
 
+
+
 One Byte Data DICOM Golang Library
+
+
+---
+
+## License and Copyright
+
+This project is licensed under the [Mozilla Public License Version 2.0 (MPL-2.0)](https://mozilla.org/MPL/2.0/).
+
+You are free to use, modify, and distribute the source code of this project, provided that you comply with the MPL-2.0 requirements, including the obligation to disclose source code of any modified MPL-licensed files.
+
+---
+## Fork Notice
+
+This project is a fork of the original repository [t2care/obd-dicom](https://github.com/t2care/obd-dicom) with modifications.
+
+The modified portions are licensed under MPL-2.0. Please refer to the license header in each source file and the LICENSE file for the original copyright notices.
 
 ## Install
 

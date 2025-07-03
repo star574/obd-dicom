@@ -8,15 +8,15 @@ import (
 	"net"
 	"time"
 
-	"github.com/t2care/obd-dicom/dictionary/sopclass"
-	"github.com/t2care/obd-dicom/dictionary/tags"
-	"github.com/t2care/obd-dicom/dictionary/transfersyntax"
-	"github.com/t2care/obd-dicom/imp"
-	"github.com/t2care/obd-dicom/media"
-	"github.com/t2care/obd-dicom/network/dicomcommand"
-	"github.com/t2care/obd-dicom/network/dicomstatus"
-	"github.com/t2care/obd-dicom/network/pdutype"
-	"github.com/t2care/obd-dicom/network/priority"
+	"github.com/star574/obd-dicom/dictionary/sopclass"
+	"github.com/star574/obd-dicom/dictionary/tags"
+	"github.com/star574/obd-dicom/dictionary/transfersyntax"
+	"github.com/star574/obd-dicom/imp"
+	"github.com/star574/obd-dicom/media"
+	"github.com/star574/obd-dicom/network/dicomcommand"
+	"github.com/star574/obd-dicom/network/dicomstatus"
+	"github.com/star574/obd-dicom/network/pdutype"
+	"github.com/star574/obd-dicom/network/priority"
 )
 
 type pduService struct {

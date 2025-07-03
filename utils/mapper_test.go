@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/star574/obd-dicom/dictionary/tags"
+	"github.com/star574/obd-dicom/media"
 	"github.com/stretchr/testify/assert"
-	"github.com/t2care/obd-dicom/dictionary/tags"
-	"github.com/t2care/obd-dicom/media"
 )
 
 func TestMapDicomDataToStruct(t *testing.T) {

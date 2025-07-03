@@ -7,10 +7,10 @@ import (
 	"github.com/sirupsen/logrus"
 	"net"
 
-	"github.com/t2care/obd-dicom/dictionary/tags"
-	"github.com/t2care/obd-dicom/media"
-	"github.com/t2care/obd-dicom/network/dicomcommand"
-	"github.com/t2care/obd-dicom/network/dicomstatus"
+	"github.com/star574/obd-dicom/dictionary/tags"
+	"github.com/star574/obd-dicom/media"
+	"github.com/star574/obd-dicom/network/dicomcommand"
+	"github.com/star574/obd-dicom/network/dicomstatus"
 )
 
 type scp struct {

@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/t2care/obd-dicom/dictionary/transfersyntax"
+	"github.com/star574/obd-dicom/dictionary/transfersyntax"
 )
 
 type BufData struct {
