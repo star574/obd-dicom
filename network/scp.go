@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log/slog"
+	"github.com/sirupsen/logrus"
 	"net"
 
 	"github.com/t2care/obd-dicom/dictionary/tags"
@@ -45,13 +45,13 @@ func (s *scp) Start() error {
 			if errors.Is(err, net.ErrClosed) {
 				return err
 			}
-			slog.Error(err.Error())
+			logrus.Error(err.Error())
 			continue
 		}
-		slog.Info("handleConnection, new connection", "ADDRESS", conn.RemoteAddr())
+		logrus.Info("handleConnection, new connection", "ADDRESS", conn.RemoteAddr())
 		go func() {
 			if err := s.handleConnection(conn); err != nil {
-				slog.Error(err.Error())
+				logrus.Error(err.Error())
 			}
 		}()
 	}

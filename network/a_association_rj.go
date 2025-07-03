@@ -2,8 +2,7 @@ package network
 
 import (
 	"bufio"
-	"log/slog"
-
+	"github.com/sirupsen/logrus"
 	"github.com/t2care/obd-dicom/media"
 )
 
@@ -64,7 +63,7 @@ func (aarj *aassociationRJ) Size() uint32 {
 func (aarj *aassociationRJ) Write(rw *bufio.ReadWriter) error {
 	bd := media.NewEmptyBufData()
 
-	slog.Info("ASSOC-RJ:", "Reason", aarj.GetReason())
+	logrus.Info("ASSOC-RJ:", "Reason", aarj.GetReason())
 
 	bd.SetBigEndian(true)
 	aarj.Size()

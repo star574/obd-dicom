@@ -4,7 +4,8 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log/slog"
+	"github.com/sirupsen/logrus"
+
 	"strconv"
 	"time"
 
@@ -140,11 +141,11 @@ func (aarq *AAssociationRQ) Size() uint32 {
 func (aarq *AAssociationRQ) Write(rw *bufio.ReadWriter) error {
 	bd := media.NewEmptyBufData()
 
-	slog.Info("ASSOC-RQ:", "CallingAE", aarq.GetCallingAE(), "CalledAE", aarq.GetCalledAE())
-	slog.Info("ASSOC-RQ:", "ImpClass", aarq.GetUserInformation().GetImpClass().GetUID())
-	slog.Info("ASSOC-RQ:", "ImpVersion", aarq.GetUserInformation().GetImpVersion().GetUID())
-	slog.Info("ASSOC-RQ:", "MaxPDULength", aarq.GetUserInformation().GetMaxSubLength().GetMaximumLength())
-	slog.Info("ASSOC-RQ:", "MaxOpsInvoked", aarq.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", aarq.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
+	logrus.Info("ASSOC-RQ:", "CallingAE", aarq.GetCallingAE(), "CalledAE", aarq.GetCalledAE())
+	logrus.Info("ASSOC-RQ:", "ImpClass", aarq.GetUserInformation().GetImpClass().GetUID())
+	logrus.Info("ASSOC-RQ:", "ImpVersion", aarq.GetUserInformation().GetImpVersion().GetUID())
+	logrus.Info("ASSOC-RQ:", "MaxPDULength", aarq.GetUserInformation().GetMaxSubLength().GetMaximumLength())
+	logrus.Info("ASSOC-RQ:", "MaxOpsInvoked", aarq.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", aarq.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
 
 	bd.SetBigEndian(true)
 	aarq.Size()
@@ -161,7 +162,7 @@ func (aarq *AAssociationRQ) Write(rw *bufio.ReadWriter) error {
 		return err
 	}
 
-	slog.Info("ASSOC-RQ: ApplicationContext", "UID", aarq.AppContext.GetUID(), "Description", sopclass.GetSOPClassFromUID(aarq.AppContext.GetUID()).Description)
+	logrus.Info("ASSOC-RQ: ApplicationContext", "UID", aarq.AppContext.GetUID(), "Description", sopclass.GetSOPClassFromUID(aarq.AppContext.GetUID()).Description)
 	if err := aarq.AppContext.Write(rw); err != nil {
 		return err
 	}
@@ -169,10 +170,10 @@ func (aarq *AAssociationRQ) Write(rw *bufio.ReadWriter) error {
 		if len(presContext.TrnSyntaxs) == 0 {
 			return fmt.Errorf("missing transfer syntax for presContext %v", presContext.AbsSyntax)
 		}
-		slog.Info("ASSOC-RQ: PresentationContext", "Index", presIndex+1)
-		slog.Info("ASSOC-RQ: \tAbstractSyntax:", "UID", presContext.GetAbstractSyntax().GetUID(), "Description", sopclass.GetSOPClassFromUID(presContext.GetAbstractSyntax().GetUID()).Description)
+		logrus.Info("ASSOC-RQ: PresentationContext", "Index", presIndex+1)
+		logrus.Info("ASSOC-RQ: \tAbstractSyntax:", "UID", presContext.GetAbstractSyntax().GetUID(), "Description", sopclass.GetSOPClassFromUID(presContext.GetAbstractSyntax().GetUID()).Description)
 		for _, transSyntax := range presContext.GetTransferSyntaxes() {
-			slog.Info("ASSOC-RQ: \tTransferSyntax:", "UID", transSyntax.GetUID(), "Description", transfersyntax.GetTransferSyntaxFromUID(transSyntax.GetUID()).Description)
+			logrus.Info("ASSOC-RQ: \tTransferSyntax:", "UID", transSyntax.GetUID(), "Description", transfersyntax.GetTransferSyntaxFromUID(transSyntax.GetUID()).Description)
 		}
 		if err := presContext.Write(rw); err != nil {
 			return err
@@ -214,7 +215,7 @@ func (aarq *AAssociationRQ) Read(ms *media.MemoryStream) (err error) {
 			aarq.UserInfo.ReadDynamic(ms)
 			return nil
 		default:
-			slog.Error("aarq::ReadDynamic, unknown Item " + strconv.Itoa(int(TempByte)))
+			logrus.Error("aarq::ReadDynamic, unknown Item " + strconv.Itoa(int(TempByte)))
 			Count = -1
 		}
 	}

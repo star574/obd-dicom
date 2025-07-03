@@ -3,7 +3,7 @@ package network
 import (
 	"bufio"
 	"errors"
-	"log/slog"
+	"github.com/sirupsen/logrus"
 	"strconv"
 
 	"github.com/t2care/obd-dicom/dictionary/sopclass"
@@ -128,11 +128,11 @@ func (aaac *aassociationAC) Size() uint32 {
 func (aaac *aassociationAC) Write(rw *bufio.ReadWriter) error {
 	bd := media.NewEmptyBufData()
 
-	slog.Info("ASSOC-AC:", "CallingAE", aaac.GetCallingAE(), "CalledAE", aaac.GetCalledAE())
-	slog.Info("ASSOC-AC:", "ImpClass", aaac.UserInfo.GetImpClass().GetUID())
-	slog.Info("ASSOC-AC:", "ImpVersion", aaac.UserInfo.GetImpVersion().GetUID())
-	slog.Info("ASSOC-AC:", "MaxPDULength", aaac.GetUserInformation().GetMaxSubLength().GetMaximumLength())
-	slog.Info("ASSOC-AC:", "MaxOpsInvoked", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
+	logrus.Info("ASSOC-AC:", "CallingAE", aaac.GetCallingAE(), "CalledAE", aaac.GetCalledAE())
+	logrus.Info("ASSOC-AC:", "ImpClass", aaac.UserInfo.GetImpClass().GetUID())
+	logrus.Info("ASSOC-AC:", "ImpVersion", aaac.UserInfo.GetImpVersion().GetUID())
+	logrus.Info("ASSOC-AC:", "MaxPDULength", aaac.GetUserInformation().GetMaxSubLength().GetMaximumLength())
+	logrus.Info("ASSOC-AC:", "MaxOpsInvoked", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
 
 	bd.SetBigEndian(true)
 	aaac.Size()
@@ -211,16 +211,16 @@ func (aaac *aassociationAC) ReadDynamic(ms *media.MemoryStream) (err error) {
 		}
 	}
 
-	slog.Info("ASSOC-AC:", "CallingAE", aaac.GetCallingAE(), "CalledAE", aaac.GetCalledAE())
-	slog.Info("ASSOC-AC:", "ImpClass", aaac.GetUserInformation().GetImpClass().GetUID())
-	slog.Info("ASSOC-AC:", "ImpVersion", aaac.GetUserInformation().GetImpVersion().GetUID())
-	slog.Info("ASSOC-AC:", "MaxPDULength", aaac.GetUserInformation().GetMaxSubLength().GetMaximumLength())
-	slog.Info("ASSOC-AC:", "MaxOpsInvoked", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
-	slog.Info("ASSOC-AC: ApplicationContext", "UID", aaac.AppContext.GetUID(), "Description", sopclass.GetSOPClassFromUID(aaac.AppContext.GetUID()).Description)
+	logrus.Info("ASSOC-AC:", "CallingAE", aaac.GetCallingAE(), "CalledAE", aaac.GetCalledAE())
+	logrus.Info("ASSOC-AC:", "ImpClass", aaac.GetUserInformation().GetImpClass().GetUID())
+	logrus.Info("ASSOC-AC:", "ImpVersion", aaac.GetUserInformation().GetImpVersion().GetUID())
+	logrus.Info("ASSOC-AC:", "MaxPDULength", aaac.GetUserInformation().GetMaxSubLength().GetMaximumLength())
+	logrus.Info("ASSOC-AC:", "MaxOpsInvoked", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", aaac.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
+	logrus.Info("ASSOC-AC: ApplicationContext", "UID", aaac.AppContext.GetUID(), "Description", sopclass.GetSOPClassFromUID(aaac.AppContext.GetUID()).Description)
 	for presIndex, presContextAccept := range aaac.PresContextAccepts {
-		slog.Info("ASSOC-AC: AcceptedPresentationContext", "Index", presIndex+1)
-		//slog.Info("ASSOC-AC: \tAccepted AbstractSyntax", "UID", presContextAccept.GetAbstractSyntax().GetUID(), "Description", sopclass.GetSOPClassFromUID(presContextAccept.GetAbstractSyntax().GetUID()).Description)
-		slog.Info("ASSOC-AC: \tAccepted TransferSyntax", "UID", presContextAccept.GetTrnSyntax().GetUID(), "Description", transfersyntax.GetTransferSyntaxFromUID(presContextAccept.GetTrnSyntax().GetUID()).Description)
+		logrus.Info("ASSOC-AC: AcceptedPresentationContext", "Index", presIndex+1)
+		//logrus.Info("ASSOC-AC: \tAccepted AbstractSyntax", "UID", presContextAccept.GetAbstractSyntax().GetUID(), "Description", sopclass.GetSOPClassFromUID(presContextAccept.GetAbstractSyntax().GetUID()).Description)
+		logrus.Info("ASSOC-AC: \tAccepted TransferSyntax", "UID", presContextAccept.GetTrnSyntax().GetUID(), "Description", transfersyntax.GetTransferSyntaxFromUID(presContextAccept.GetTrnSyntax().GetUID()).Description)
 	}
 	if Count == 0 {
 		return nil

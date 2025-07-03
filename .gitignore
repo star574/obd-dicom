@@ -10,4 +10,5 @@ Gopkg.toml
 .exe
 datastore
 .gitconfig
+.idea
 

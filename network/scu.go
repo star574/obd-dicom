@@ -3,7 +3,7 @@ package network
 import (
 	"errors"
 	"fmt"
-	"log/slog"
+	"github.com/sirupsen/logrus"
 	"strconv"
 
 	"github.com/t2care/obd-dicom/dictionary/sopclass"
@@ -87,7 +87,7 @@ func (d *scu) FindSCU(Query *media.DcmObj, timeout int, mode ...FindMode) (int, 
 			if d.onCFindResult != nil {
 				d.onCFindResult(ddo)
 			} else {
-				slog.Warn("No onCFindResult event found")
+				logrus.Warn("No onCFindResult event found")
 			}
 		}
 	}
@@ -117,7 +117,7 @@ func (d *scu) MoveSCU(destAET string, Query *media.DcmObj, timeout int) (uint16,
 		if d.onCMoveResult != nil {
 			d.onCMoveResult(ddo)
 		} else {
-			slog.Warn("No onCMoveResult event found")
+			logrus.Warn("No onCMoveResult event found")
 		}
 	}
 	return status, nil
@@ -137,7 +137,7 @@ func (d *scu) StoreSCU(FileNames []string, timeout int, transferSyntaxes ...stri
 		pending = uint16(len(FileNames) - index - 1)
 		if err := d.cstore(pdu, FileName); err != nil {
 			failed++
-			slog.Warn("StoreSCU", "File", FileName, "Error", err.Error())
+			logrus.Warn("StoreSCU", "File", FileName, "Error", err.Error())
 		} else {
 			completed++
 		}
@@ -147,7 +147,7 @@ func (d *scu) StoreSCU(FileNames []string, timeout int, transferSyntaxes ...stri
 			}
 		}
 	}
-	slog.Info("StoreSCU", "Completed", completed, "Failed", failed)
+	logrus.Info("StoreSCU", "Completed", completed, "Failed", failed)
 	return nil
 }
 
@@ -221,7 +221,7 @@ func (d *scu) writeStoreRQ(pdu *pduService, DDO *media.DcmObj) (uint16, error) {
 		}
 		return dicomstatus.Success, nil
 	}
-	slog.Info("StoreSCU: Transcode.", "From", DDO.GetTransferSyntax().Description, "To", TrnSyntOUT.Description)
+	logrus.Info("StoreSCU: Transcode.", "From", DDO.GetTransferSyntax().Description, "To", TrnSyntOUT.Description)
 	DDO.ChangeTransferSynx(TrnSyntOUT)
 
 	err := pdu.WriteRQ(dicomcommand.CStoreRequest, DDO)

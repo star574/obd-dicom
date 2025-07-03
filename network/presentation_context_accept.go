@@ -2,8 +2,7 @@ package network
 
 import (
 	"bufio"
-	"log/slog"
-
+	"github.com/sirupsen/logrus"
 	"github.com/t2care/obd-dicom/dictionary/sopclass"
 	"github.com/t2care/obd-dicom/dictionary/transfersyntax"
 	"github.com/t2care/obd-dicom/media"
@@ -97,8 +96,8 @@ func (pc *presentationContextAccept) Write(rw *bufio.ReadWriter) (err error) {
 		tsName = transferSyntax.Description
 	}
 
-	slog.Info("ASSOC-AC: \tAccepted AbstractContext:", "UID", pc.GetAbstractSyntax().GetUID(), "Description", sopName)
-	slog.Info("ASSOC-AC: \tAccepted TransferSynxtax:", "UID", pc.GetTrnSyntax().GetUID(), "Description", tsName)
+	logrus.Info("ASSOC-AC: \tAccepted AbstractContext:", "UID", pc.GetAbstractSyntax().GetUID(), "Description", sopName)
+	logrus.Info("ASSOC-AC: \tAccepted TransferSynxtax:", "UID", pc.GetTrnSyntax().GetUID(), "Description", tsName)
 
 	if err = bd.Send(rw); err == nil {
 		return pc.TrnSyntax.Write(rw)

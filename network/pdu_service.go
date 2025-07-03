@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"log/slog"
+	"github.com/sirupsen/logrus"
 	"net"
 	"time"
 
@@ -223,7 +223,7 @@ func (pdu *pduService) NextPDU() (command *media.DcmObj, err error) {
 				return DCO, nil
 			}
 		case pdutype.AssociationReleaseRequest:
-			slog.Info("ASSOC-R-RQ:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
+			logrus.Info("ASSOC-R-RQ:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
 			if pdu.OnAssociationRelease != nil {
 				pdu.OnAssociationRelease(pdu.AssocRQ)
 			}
@@ -231,10 +231,10 @@ func (pdu *pduService) NextPDU() (command *media.DcmObj, err error) {
 			pdu.ReleaseRP.Write(pdu.readWriter)
 			return nil, errors.New("pduservice::Read - A-Release-RQ")
 		case pdutype.AssociationReleaseResponse:
-			slog.Info("ASSOC-R-RP:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
+			logrus.Info("ASSOC-R-RP:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
 			return nil, errors.New("pduservice::Read - A-Release-RP")
 		case pdutype.AssociationAbortRequest:
-			slog.Info("ASSOC-ABORT-RQ:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
+			logrus.Info("ASSOC-ABORT-RQ:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
 			return nil, errors.New("pduservice::Read - A-Abort-RQ")
 		default:
 			pdu.AbortRQ.Write(pdu.readWriter)
@@ -304,7 +304,7 @@ func (pdu *pduService) Write(DCO *media.DcmObj, ItemType byte) error {
 
 	if ItemType > 0x00 {
 		sopClass := sopclass.GetSOPClassFromUID(DCO.GetString(tags.AffectedSOPClassUID))
-		slog.Info("PDU-Service: SOP Class", "UID", sopClass.UID, "Description", sopClass.Description, "CalledAE", pdu.GetCalledAE())
+		logrus.Info("PDU-Service: SOP Class", "UID", sopClass.UID, "Description", sopClass.Description, "CalledAE", pdu.GetCalledAE())
 	}
 
 	return pdu.Pdata.Write(pdu.readWriter)
@@ -341,24 +341,24 @@ func (pdu *pduService) interogateAAssociateRQ(rw *bufio.ReadWriter) error {
 	pdu.AssocAC.SetAppContext(pdu.AssocRQ.GetAppContext())
 	pdu.AssocAC.SetUserInformation(pdu.AssocRQ.GetUserInformation())
 
-	slog.Info("ASSOC-RQ:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
-	slog.Info("ASSOC-RQ:", "ImpClass", pdu.AssocRQ.GetUserInformation().GetImpClass().GetUID())
-	slog.Info("ASSOC-RQ:", "ImpVersion", pdu.AssocRQ.GetUserInformation().GetImpVersion().GetUID())
-	slog.Info("ASSOC-RQ:", "MaxPDULength", pdu.AssocRQ.GetUserInformation().GetMaxSubLength().GetMaximumLength())
-	slog.Info("ASSOC-RQ:", "MaxOpsInvoked", pdu.AssocRQ.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", pdu.AssocRQ.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
+	logrus.Info("ASSOC-RQ:", "CallingAE", pdu.AssocRQ.GetCallingAE(), "CalledAE", pdu.AssocRQ.GetCalledAE())
+	logrus.Info("ASSOC-RQ:", "ImpClass", pdu.AssocRQ.GetUserInformation().GetImpClass().GetUID())
+	logrus.Info("ASSOC-RQ:", "ImpVersion", pdu.AssocRQ.GetUserInformation().GetImpVersion().GetUID())
+	logrus.Info("ASSOC-RQ:", "MaxPDULength", pdu.AssocRQ.GetUserInformation().GetMaxSubLength().GetMaximumLength())
+	logrus.Info("ASSOC-RQ:", "MaxOpsInvoked", pdu.AssocRQ.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsInvoked(), "MaxOpsPerformed", pdu.AssocRQ.GetUserInformation().GetAsyncOperationWindow().GetMaxNumberOperationsPerformed())
 
 	for presIndex, PresContext := range pdu.AssocRQ.GetPresContexts() {
-		slog.Info("ASSOC-RQ: PresentationContext", "Index", presIndex)
+		logrus.Info("ASSOC-RQ: PresentationContext", "Index", presIndex)
 
 		sopClass := sopclass.GetSOPClassFromUID(PresContext.GetAbstractSyntax().GetUID())
-		slog.Info("ASSOC-RQ: \tAbstractContext", "UID", sopClass.UID, "Description", sopClass.Description)
+		logrus.Info("ASSOC-RQ: \tAbstractContext", "UID", sopClass.UID, "Description", sopClass.Description)
 		for _, TransferSyn := range PresContext.GetTransferSyntaxes() {
 			tsName := ""
 			transferSyntax := transfersyntax.GetTransferSyntaxFromUID(TransferSyn.GetUID())
 			if transferSyntax != nil {
 				tsName = transferSyntax.Description
 			}
-			slog.Info("ASSOC-RQ: \tTransferSynxtax:", "UID", TransferSyn.GetUID(), "Description", tsName)
+			logrus.Info("ASSOC-RQ: \tTransferSynxtax:", "UID", TransferSyn.GetUID(), "Description", tsName)
 		}
 
 		PresContextAccept := NewPresentationContextAccept()
@@ -392,7 +392,7 @@ func (pdu *pduService) interogateAAssociateRQ(rw *bufio.ReadWriter) error {
 		return pdu.AssocAC.Write(rw)
 	}
 
-	slog.Info("pduservice::InterogateAAssociateRQ - No valid AcceptedPresentationContexts")
+	logrus.Info("pduservice::InterogateAAssociateRQ - No valid AcceptedPresentationContexts")
 	return pdu.AssocRJ.Write(rw)
 }
 
@@ -404,7 +404,7 @@ func (pdu *pduService) parseDCMIntoRaw(DCO *media.DcmObj) bool {
 func (pdu *pduService) parseRawVRIntoDCM(DCO *media.DcmObj) bool {
 	TrnSyntax := pdu.GetTransferSyntax(pdu.Pdata.PresentationContextID)
 	if TrnSyntax == nil {
-		slog.Info("pduservice::ParseRawVRIntoDCM - Transfer syntax length is 0")
+		logrus.Info("pduservice::ParseRawVRIntoDCM - Transfer syntax length is 0")
 		return false
 	}
 	DCO.SetTransferSyntax(TrnSyntax)
