@@ -13,7 +13,7 @@ import (
 	"github.com/star574/obd-dicom/network/dicomstatus"
 )
 
-type scp struct {
+type Scp struct {
 	Port                 int
 	listener             net.Listener
 	onAssociationRequest func(request *AAssociationRQ) bool
@@ -24,15 +24,15 @@ type scp struct {
 }
 
 // NewSCP - Creates an interface to scu
-func NewSCP(port int) *scp {
+func NewSCP(port int) *Scp {
 	media.InitDict()
 
-	return &scp{
+	return &Scp{
 		Port: port,
 	}
 }
 
-func (s *scp) Start() error {
+func (s *Scp) Start() error {
 	var err error
 	s.listener, err = net.Listen("tcp", fmt.Sprintf(":%d", s.Port))
 	if err != nil {
@@ -57,11 +57,11 @@ func (s *scp) Start() error {
 	}
 }
 
-func (s *scp) Stop() error {
+func (s *Scp) Stop() error {
 	return s.listener.Close()
 }
 
-func (s *scp) handleConnection(conn net.Conn) (err error) {
+func (s *Scp) handleConnection(conn net.Conn) (err error) {
 	defer conn.Close()
 	rw := bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))
 
@@ -129,22 +129,22 @@ func (s *scp) handleConnection(conn net.Conn) (err error) {
 	return
 }
 
-func (s *scp) OnAssociationRequest(f func(request *AAssociationRQ) bool) {
+func (s *Scp) OnAssociationRequest(f func(request *AAssociationRQ) bool) {
 	s.onAssociationRequest = f
 }
 
-func (s *scp) OnAssociationRelease(f func(request *AAssociationRQ)) {
+func (s *Scp) OnAssociationRelease(f func(request *AAssociationRQ)) {
 	s.onAssociationRelease = f
 }
 
-func (s *scp) OnCFindRequest(f func(request *AAssociationRQ, data *media.DcmObj) ([]*media.DcmObj, uint16)) {
+func (s *Scp) OnCFindRequest(f func(request *AAssociationRQ, data *media.DcmObj) ([]*media.DcmObj, uint16)) {
 	s.onCFindRequest = f
 }
 
-func (s *scp) OnCMoveRequest(f func(request *AAssociationRQ, moveLevel string, data *media.DcmObj, moveDst *Destination) ([]string, uint16)) {
+func (s *Scp) OnCMoveRequest(f func(request *AAssociationRQ, moveLevel string, data *media.DcmObj, moveDst *Destination) ([]string, uint16)) {
 	s.onCMoveRequest = f
 }
 
-func (s *scp) OnCStoreRequest(f func(request *AAssociationRQ, data *media.DcmObj) uint16) {
+func (s *Scp) OnCStoreRequest(f func(request *AAssociationRQ, data *media.DcmObj) uint16) {
 	s.onCStoreRequest = f
 }

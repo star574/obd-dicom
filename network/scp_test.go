@@ -89,7 +89,7 @@ func dcmtk_findscu(port int) error {
 }
 
 func dcmtk_movescu(port int) error {
-	return exe("movescu", "-d", "-k", "StudyInstanceUID=STUDY", "-aem", "scp", "127.0.0.1", strconv.Itoa(port))
+	return exe("movescu", "-d", "-k", "StudyInstanceUID=STUDY", "-aem", "Scp", "127.0.0.1", strconv.Itoa(port))
 }
 
 func dcmtk_storescu(port int, file string) error {
@@ -109,7 +109,7 @@ func exe(name string, args ...string) error {
 	return nil
 }
 
-func StartSCP(t testing.TB, port int) (func(t testing.TB), *scp) {
+func StartSCP(t testing.TB, port int) (func(t testing.TB), *Scp) {
 	testSCP := NewSCP(port)
 	go func() {
 		if err := testSCP.Start(); err != nil {
